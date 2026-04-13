@@ -174,5 +174,17 @@ async def main():
                         print(f"Could not delete {filename}: {e}")
             print("Cleanup finished!")
 
+        # ==========================================
+        # 6. SEND FILES TO SAVED MESSAGES
+        # ==========================================
+        print("Sending extracted links to Saved Messages...")
+        try:
+            if os.path.exists(TXT_FILENAME):
+                await client.send_file('me', TXT_FILENAME, caption="✅ Batch complete! Here are your extracted links.")
+            if os.path.exists(ERROR_TXT_FILENAME):
+                await client.send_file('me', ERROR_TXT_FILENAME, caption="⚠️ Error log for this batch.")
+        except Exception as e:
+            print(f"Could not send files to Telegram: {e}")
+
 if __name__ == "__main__":
     asyncio.run(main())
